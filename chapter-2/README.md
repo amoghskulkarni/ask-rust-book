@@ -60,4 +60,3 @@
     ```
   - another option is to use `expect()` method to print, but still default error message of the library will be shown
   - `match` with `continue` for `Err(_)` variant for guess variable will ensure nothing is executed in error case (i.e. our empty error handler gets executed, and program crashes gracefully)
--
