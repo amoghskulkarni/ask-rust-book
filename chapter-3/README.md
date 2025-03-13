@@ -20,6 +20,7 @@ println!("The value of x is: {x}");
 - e.g. `const THREE_HOURS_IN_SECONDS: u32 = 60 * 60 * 3;`
 - The type of their value MUST be annotated, since it is always known at the time of declaring them
 - Can be declared in any scope, even global
+  - `const` can be used in the global scope, and `let` can only be used in a function
 - Can only be set to a constant expression at the compile=time, not a runtime computation
 - Rust’s naming convention for constants is to use all uppercase with underscores between words.
 
