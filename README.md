@@ -8,6 +8,12 @@ The repository to keep Rust programming practice by self-studying [the Rust book
 
 [Follow the instructions](https://doc.rust-lang.org/stable/book/ch01-01-installation.html) on Rust book's section on installation on different systems.
 
+### Or use [Dev Containers](https://code.visualstudio.com/docs/devcontainers/containers) instead 
+
+Install [Docker desktop](https://www.docker.com/) and VS Code's [Dev Container](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension. More installation related instructions are [here](https://code.visualstudio.com/docs/devcontainers/containers). 
+
+Follow the 
+
 # Programming excercises
 
 Includes experimentation with the code given in the book (directory structure as per chapters in the book).
