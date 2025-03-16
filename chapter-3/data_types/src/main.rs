@@ -19,7 +19,9 @@ fn main() {
     let t: (i32, f64, u8) = (42, 6.12, 1); // Tuple type
     let (x, y, z) = t; // Destructuring tuple
     println!("x: {x}, y: {y}, z: {z}");
-    println!("First element of tuple: {t.0}");
+    println!("First element of tuple: {}", t.0); // Accessing tuple element
+    // Following throws error, tuple element access using dot operator not supported in format string
+    // println!("Second element of tuple: {t.1}"); 
 
     let a = [1, 2, 3, 4, 5]; // Array type
     let first = a[0]; // Accessing array element
@@ -39,10 +41,11 @@ fn main() {
     let s = String::from("Hello, ") + "world!"; // String concatenation
     let s = format!("Hello, {}", "world!"); // String formatting
     let s = "Hello, world!".to_string();
-    let s = s + " Goodbye!"; // String concatenation
+    let slice = &s[0..5]; // Slicing string
+    println!("String Slice: {}", slice);
+    let s = s + "and Goodbye!"; // String concatenation
+    println!("{s}");
     let s = "Hello, world!";
     let s = s.replace("world", "there"); // String replacement
     println!("{s}");
-
-
 }
