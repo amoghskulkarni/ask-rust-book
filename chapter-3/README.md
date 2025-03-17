@@ -129,3 +129,163 @@ fn yet_another_function(x: i32) {
       x + 1;
   }
   ```
+
+# Comments
+
+Usual C-style comment syntax.
+
+- `//` for single-line comment
+- `/* */` for block comments 
+- Docstring comments are supported 
+  ```rust
+  /*
+   * This is a docstring comment
+   */
+  fn some_function () {
+    // ...
+  }
+  ```
+
+# Control flow 
+
+### Branching (`if` expressions)
+
+- Note: `if` is not a statment, it's an **expression** 
+- Optional `else` expression
+- No paranthesis around the condition
+  ```rust
+  fn main() {
+    let number = 3;
+
+    if number < 5 {
+      println!("condition was true");
+    } else {
+      println!("condition was false");
+    }
+  }
+  ```
+- Condition expression **MUST** be a bool, no "truthy value" business
+  ```rust
+  fn main () {
+    let number = 5;
+
+    // Gives error, number is not a boolean value 
+    if number {
+      println!("Some number");
+    } 
+  }
+  ```
+- `else if` can chain to make an `if..else` ladder
+  ```rust
+  if number < 5 {
+    println!("Less than 5");
+  } else if number == 5 {
+    println!("Equal to 5");
+  } else {
+    println("Greater than 5");
+  }
+  ```
+- Since `if` is an expression, you can use it with `let` statement to assign a value to a variable conditionally
+  ```rust
+  fn main() {
+    let condition = true;
+    let number1 = if condition { 5 } else { 6 };
+    // Following gives error, because 
+    // let number = if condition { 5 } else { "Not 5" };
+
+    println!("The value of number is: {number}");
+
+    // The following code is equivalent to the above statement 
+    let number2;
+    if condition {
+      number2 = 1;
+    } else {
+      number2 = 2;
+    }
+  }
+  ```
+
+### Loops 
+
+- Three types of looping with `loop`, `while` and `for`.
+- `loop` executes a block infinitely untill interrupted (e.g. using `ctrl-c`)
+- Can be broken out of using `break` 
+- `continue` skips over any remaining code in the running iteration and goes to the next iteration
+- `break` and `continue` always apply to the innermost loop 
+- Returning values with loops with `break` 
+
+  ```rust
+  let mut counter = 0;
+
+  let result = loop {
+    counter += 1;
+    if counter == 10 {
+      break counter * 2;
+    }
+  };
+
+  println!("The result is {result}");
+  ```
+  While `break` only exits the current loop, `return` always exits the current **function**.
+
+##### Nested loops and breaks 
+- Loop labels can be optionally used in case a nested loop wants to break its outer loop (the loop that wraps it)
+
+  ```rust
+  let mut count = 0;
+  'counting_up: loop {
+    println!("count = {count}");
+    let mut remaining = 10;
+
+    loop {
+      println!("remaining = {remaining}");
+      if remaining == 9 {
+        break;
+      }
+      if count == 2 {
+        break 'counting_up; // Specifically breaks the outer loop
+      }
+      remaining -= 1;
+    }
+
+    count += 1;
+  }
+  println!("End count = {count}");
+  ```
+
+  prints following 
+
+  ```shell
+  count = 0
+  remaining = 10
+  remaining = 9
+  count = 1
+  remaining = 10
+  remaining = 9
+  count = 2
+  remaining = 10
+  End count = 2
+  ```
+
+##### `while`
+- `while` is a combination of `loop`, `if`, `else` and `break`
+- "Loop on a condition and keep checking if it is true - if it is true run 'this', else run 'that' and break"
+
+##### `for`
+- Used to iterate over a collection
+- Can be done with `loop` and `while`, but efficient with `for`
+- Iterating on a collection with `for` is less error-prone
+  ```rust
+  let a = [10, 20, 30, 40, 50]
+
+  // using while works, but potentially panics if array length changes  
+  let mut i = 0;
+  while i < 5 {
+    println!("Value: {a[index]}")
+  }
+
+  // This is better  
+  for element in a {
+    println!("Value: {element} ")
+  } 
+  ```

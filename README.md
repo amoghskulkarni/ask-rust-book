@@ -29,3 +29,4 @@ Includes experimentation with the code given in the book (directory structure as
   - [Variables, Mutability](./chapter-3/variables/)
   - [Data types](./chapter-3/data_types/)
   - [Functions](./chapter-3/functions/)
+  - [Control flow](./chapter-3/control_flow/)
