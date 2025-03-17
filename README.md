@@ -27,4 +27,5 @@ Includes experimentation with the code given in the book (directory structure as
   - [Project](./chapter-2/guessing-game/)
 - [Common programming concepts](./chapter-3/)
   - [Variables, Mutability](./chapter-3/variables/)
-  - []
+  - [Data types](./chapter-3/data_types/)
+  - [Functions](./chapter-3/functions/)
