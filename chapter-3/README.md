@@ -105,8 +105,8 @@ fn yet_another_function(x: i32) {
   ```
   The above code compiles, because `{...}` is a valid expression, and can be assigned to the variable y. 
 
-  > [!CAUTION] 
-  > Note that the `x + 1` line doesn’t have a semicolon at the end, which is unlike most of the lines you’ve seen so far. Expressions do not include ending semicolons. If you add a semicolon to the end of an expression, you turn it into a statement, and it will then not return a value.
+> [!CAUTION] 
+> Note that the `x + 1` line doesn’t have a semicolon at the end, which is unlike most of the lines you’ve seen so far. Expressions do not include ending semicolons. If you add a semicolon to the end of an expression, you turn it into a statement, and it will then not return a value.
 
 ### Functions with return values 
 
