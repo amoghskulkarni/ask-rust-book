@@ -7,6 +7,7 @@
 - Ownership rules avoid scenarios like accessing a variable before it is defined (the scenarios where the resultant behavior of the program is unreliable)
 - Ownership is a model of thinking about _memory_, which is not too high level (like "memory is a thing that holds my data") and not too low level (like "memory is a location in my physical RAM which I get after using `malloc`")
 - Variables live in "stack" and Boxes live in "heap"
+  
   ```rust
   // Variable a contains an array of 1 million values
   // and it is copied in the second line
@@ -23,6 +24,7 @@
 - How Rust decides to deallocate a `Box`?
   - When a `Box` is allocated to a variable, that variable (pointer) is said to **own** the box
   - e.g.
+    
     ```rust
     let a = Box::new(5);
     let b = a 
@@ -63,6 +65,7 @@ This is called **"Moved heap data principle"** - if a variable `x` moves ownersh
 
 Cloning avoid moves.
 - Following doesn't produce an error from BC
+  
   ```rust
   fn main() {
     let first = String::from("Ferris");
@@ -76,4 +79,82 @@ Cloning avoid moves.
     name
   }
   ```
+
+### References and borrowing 
+
+- It is many times inconvenient to pass ownership of data to and from functions, just to keep Rust happy
+  - Following program produces error 
+
+  ```rust
+  fn main() {
+    let m1 = String::from("Hello");
+    let m2 = String::from("world");
+    greet(m1, m2);
+    let s = format!("{} {}", m1, m2); // Error: m1 and m2 are moved
+  }
+
+  fn greet(g1: String, g2: String) {
+    println!("{} {}!", g1, g2);
+  }
+  ```
+  - We can fix this by returning the ownership, like so
+
+  ```rust
+  fn main() {
+    let m1 = String::from("Hello");
+    let m2 = String::from("world");
+    let (m1_again, m2_again) = greet(m1, m2); // Ownership returned, Rust is happy
+    // let (m1, m2) = greet(m1, m2)     // Shadowing works too
+    let s = format!("{} {}", m1_again, m2_again);
+  }
+
+  fn greet(g1: String, g2: String) -> (String, String) {
+    println!("{} {}!", g1, g2);
+    (g1, g2)
+  }
+  ```
+  
+  But this makes the program verbose.
+- References and the concept of _borrowing_ comes in handy in such scenarios
+- We can fix the above error-producing code, like so
+
+  ```rust
+  fn main() {
+    let m1 = String::from("Hello");
+    let m2 = String::from("world");
+    greet(&m1, &m2); // Pass the reference, note the ampersands 
+    let s = format!("{} {}", m1, m2); // No error 
+  }
+
+  fn greet(g1: &String, g2: &String) { // Signature says g1 and g2 are references, not pointers 
+    println!("{} {}!", g1, g2);
+  }
+  ```
+- **References are non-owning pointers**
+- While `m1` owns the data on the heap ("Hello"), `g1` doesn't own either `m1` or the data
+
+##### Dereferencing 
+
+- `*` operator dereferences the pointer
+  ```rust
+  let mut x: Box<i32> = Box::new(1);
+  let a: i32 = *x;    // *x reads the heap value, so a = 1
+  *x += 1;            // *x modifies the heap value, so now x points to value 2  
+  ```
+- If we pass reference to a reference, we need to double dereference to reach the value
+  ``` rust
+  // ... above snippet
+  let r1: &Box<i32> = &x    // r1 is a reference to x, which is a references itself
+  let b: i32 = **r1         // Needs double dereferencing to reach the value through r1
+  ```
+- Rust implicitly inserts dereferences and references in certain cases, such as calling a method with the dot operator
+- In the following snippet, how many dereferences would be needed to reach the value through y? 
+
+  ```rust
+  let x = Box::new(0);
+  let y = Box::new(&x);
+  ```
+
+  Answer: 3. `***y` is the correct expression. y has the type `Box<&Box<i32>>`. It is a heap pointer to a stack reference to a heap pointer. (mind-f&*k)
+
 
