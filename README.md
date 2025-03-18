@@ -30,3 +30,5 @@ Includes experimentation with the code given in the book (directory structure as
   - [Data types](./chapter-3/data_types/)
   - [Functions](./chapter-3/functions/)
   - [Control flow](./chapter-3/control_flow/)
+- [Ownership](./chapter-4/)
+  - [Concept](./chapter-4/)
