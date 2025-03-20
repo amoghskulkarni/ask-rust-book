@@ -174,3 +174,70 @@ Cloning avoid moves.
 - Rust has a simple solution for this: **Pointer Safety Principle: data should never be aliased and mutated at the same time.**
 - But References, since they don't own, require Rust to come up with different set of rules to enforce this principle. Because References are meant to temporarily create aliases.
 - **Borrow Checker** ensures safety when References come into picture.
+
+##### Read-Write-Own permissions, Places and References
+
+- Things can have 3 permissions over data: R-W-O
+- A variable has read/own permissions on a data here `let v = 5`
+- A mutable variable has read/write/own permissions `let mut v = 10`
+- References can temporarily remove these permissions
+- Illustration with explanation
+
+  ![Borrow checking for immutable references](./borrow-checking-principle-1.png)
+
+- Why `num` and `*num` both shown? Because accessing data through a reference is not the same as manipulating the reference itself
+- If we have a mutable reference, it does not mean the **place** that is referred by it is mutable. It simply means, we can do following
+  ```rust
+  let x = 0;
+  let y = 1;
+  let mut my_ref = &x;
+  my_ref = &y;      // This is not possible if my_ref is not mutable
+  ```
+- But even in the above example, the **place** `*my_ref` is still immutable (has only R permission)
+- More generally, permissions are defined on places and not just variables. A place is anything you can put on the left-hand side of an assignment
+- Rust BC uses **Pointer Safety Principle** to determine which borrows are safe and which are not.
+
+  ```rust
+  let mut v: Vec<i32> = vec![1, 2, 3];
+  let num: &i32 = &v[1];      // immutable borrow
+  v.push(4);                  // mutable borrow
+  println!("Second element is {}", *num);   // immutable borrow is used here again, not allowed
+  ```
+
+  The real reason Rust BC doesn't pass above program because `num` cannot be safely invalidated by `push`, because it was used later.
+
+- **Mutable references** provide unique and non-owning access to data
+- Illustration with explanation
+
+  ![Borrow checking for mutable references](./borrow-checking-principle-2.png)
+
+- Mutable references get "dowgraded" to immutable ones if aliasing happens. E.g.
+
+  ```rust
+  let mut v: Vec<i32> = vec![1, 2, 3];
+  let num: &mut i32 = &mut v[2];      // num is a mutable reference here
+  let num2: &i32 = & *num;            // aliasing with num2, hence num loses W permission
+  *num += 1;                          // so W with num is not allowed
+  println!("{} {}", *num, *num2)      // but R with num is allowed
+  ```
+
+##### Data must outlive all of its References
+
+- Part of the pointer safety principle
+- Flow permission, in addition to R-W-O permissions
+
+  - To give a different mechanism to Rust for knowing the lifetime of references
+  - To treat input/output references differently than the references within the function body
+  - E.g. `s_ref` in following snippet, does not have appropriate Flow permission
+
+    ```rust
+    fn return_a_string() -> &String {
+      let s = String::from("Hello");
+      let s_ref = &s;
+      s_ref
+    }
+    ```
+
+    Above program is unsafe, because the reference `&s` will be invalidated when the function returns
+
+- Flow permissions have more to do with Lifetimes, so we'll revisit them in chapter 10
