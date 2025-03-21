@@ -1,0 +1,10 @@
+{
+  "[rust]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "rust-lang.rust-analyzer"
+  },
+  "rust-analyzer.workspace.discoverConfig": null,
+  "rust-analyzer.linkedProjects": [
+    "chapter_4/ownership/Cargo.toml",
+  ]
+}
