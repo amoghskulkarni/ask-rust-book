@@ -4,16 +4,30 @@
   "name": "Rust",
   // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
   "build": {
-    "dockerfile": "Dockerfile",
+    "dockerfile": "Dockerfile"
     // Update 'VARIANT' to pick a Rust version: 1, 1-bullseye, 1-slim, 1-bullseye-slim, 1-buster, 1-buster-slim, 1-alpine3.14, 1-alpine3.13
-    "args": { "VARIANT": "1" }
+    // "args": { "VARIANT": "1" }
   },
   "features": {
-    "ghcr.io/devcontainers/features/rust:1": {
-      "version": "latest"
-    },
-    "ghcr.io/lee-orr/rusty-dev-containers/rust_windows_msvc:0": {
-      "version": "latest"
+    // "ghcr.io/devcontainers/features/rust:1": {
+    //   "version": "latest"
+    // },
+    // "ghcr.io/lee-orr/rusty-dev-containers/cargo-binstall": {},
+    // "ghcr.io/lee-orr/rusty-dev-containers/rust_windows_msvc:0": {
+    //   "version": "latest"
+    // },
+    "ghcr.io/devcontainers/features/common-utils": {},
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dustypomerleau.rust-syntax",
+        "1YiB.rust-bundle",
+        "esbenp.prettier-vscode",
+        "fill-labs.dependi"
+      ]
     }
   }
 
