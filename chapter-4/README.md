@@ -241,5 +241,3 @@ Cloning avoid moves.
     Above program is unsafe, because the reference `&s` will be invalidated when the function returns
 
 - Flow permissions have more to do with Lifetimes, so we'll revisit them in chapter 10
-
-Testing if `git push` works

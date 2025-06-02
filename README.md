@@ -31,4 +31,5 @@ Includes experimentation with the code given in the book (directory structure as
   - [Functions](./chapter-3/functions/)
   - [Control flow](./chapter-3/control_flow/)
 - [Ownership](./chapter-4/)
-  - [Concept](./chapter-4/)
+  - [Concept](./chapter-4/ownership/)
+  - [Unsafe programs](./chapter-4/unsafe_programs/)
